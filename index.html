@@ -3,36 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrega 1 - Simulador Interativo</title>
-    
-    <!-- O CSS interno foi removido e substituído por esta referência ao arquivo externo -->
+    <title>Carrinho de Compras Interativo</title>
     <link rel="stylesheet" type="text/css" href="CSS/style.css">
-
 </head>
 <body>
 
     <div class="container">
-        <h1>Simulador de Carrinho de Compras</h1>
+        <header>
+            <h1>Minha Loja Online</h1>
+            <p>Escolha seus produtos e adicione ao carrinho!</p>
+        </header>
 
-        <h2>Descrição do Projeto</h2>
-        <p>
-            Este projeto é um simulador interativo de um carrinho de compras online. O objetivo é demonstrar a aplicação dos conceitos fundamentais de JavaScript, como variáveis, arrays, funções, ciclos de iteração e condicionais. A interação com o usuário é realizada exclusivamente através de caixas de diálogo (<code>Alert</code>, <code>Prompt</code>, <code>Confirm</code>) e do console do navegador.
-        </p>
-        <p>
-            O simulador permite que o usuário veja uma lista de produtos disponíveis, adicione itens ao seu carrinho, e, ao finalizar a compra, veja um resumo detalhado com os produtos escolhidos, o subtotal, o custo de envio e o valor total a pagar. A lógica foi dividida em funções específicas para entrada de dados, processamento e exibição dos resultados, seguindo as boas práticas de programação.
-        </p>
-        
-        <hr>
-        
-        <h2>Como usar</h2>
-        <p>
-            Abra o console do desenvolvedor do seu navegador (geralmente com a tecla F12) e siga as instruções que aparecerão nas caixas de diálogo na tela.
-        </p>
+        <main>
+            <section id="secao-produtos">
+                <h2>Produtos Disponíveis</h2>
+                <div id="lista-produtos" class="vitrine-produtos">
+                    <!-- Os cards de produtos serão inseridos aqui pelo JavaScript -->
+                    <!-- Exemplo de estrutura de um card de produto (para referência):
+                    <div class="produto-card">
+                        <img src="caminho/para/imagem.jpg" alt="Nome do Produto" class="produto-imagem">
+                        <h3 class="produto-nome">Nome do Produto</h3>
+                        <p class="produto-preco">R$ 0.00</p>
+                        <div class="produto-compra">
+                            <label for="qtd-produto-1">Qtd:</label>
+                            <input type="number" id="qtd-produto-1" class="produto-quantidade" value="1" min="1">
+                            <button class="btn-adicionar" data-idprod="1">Adicionar</button>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="secao-carrinho">
+                <h2>Seu Carrinho</h2>
+                <div id="carrinho-itens-container">
+                    <!-- Os itens do carrinho serão inseridos aqui pelo JavaScript -->
+                    <!-- Exemplo de estrutura de um item no carrinho (para referência):
+                    <div class="carrinho-item">
+                        <p class="item-nome">Nome do Produto</p>
+                        <p class="item-preco-unitario">Preço Unit.: R$ 0.00</p>
+                        <div class="item-quantidade-controle">
+                            <button class="btn-diminuir-qtd" data-iditemcarrinho="1">-</button>
+                            <span class="item-quantidade">1</span>
+                            <button class="btn-aumentar-qtd" data-iditemcarrinho="1">+</button>
+                        </div>
+                        <p class="item-subtotal">Subtotal: R$ 0.00</p>
+                        <button class="btn-remover-item" data-iditemcarrinho="1">Remover</button>
+                    </div>
+                    -->
+                    <p id="carrinho-vazio-msg" class="mensagem-info">Seu carrinho está vazio.</p>
+                </div>
+
+                <div id="carrinho-resumo">
+                    <p>Subtotal: <span id="subtotal-carrinho">R$ 0.00</span></p>
+                    <p>Custo de Envio: <span id="custo-envio-carrinho">R$ 0.00</span></p> {/* Manteremos o custo de envio por enquanto */}
+                    <h3>Total: <span id="total-carrinho">R$ 0.00</span></h3>
+                </div>
+
+                <div id="carrinho-acoes">
+                    <button id="btn-limpar-carrinho" class="btn btn-perigo">Limpar Carrinho</button>
+                    <button id="btn-finalizar-compra" class="btn btn-sucesso">Finalizar Compra</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2024 Sua Loja Online. Projeto de Carrinho de Compras Interativo.</p>
+        </footer>
     </div>
 
     <!-- O arquivo JS continua referenciado no final do body -->
     <script src="JS/script.js"></script>
-
-
 </body>
 </html>
