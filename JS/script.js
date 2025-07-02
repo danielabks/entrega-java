@@ -237,24 +237,7 @@ function finalizarCompra() {
 function inicializarLoja() {
     // Adiciona uma classe sr-only ao CSS se ainda não existir
     // Isso é para esconder visualmente labels, mas mantê-los para leitores de tela.
-    if (!document.styleSheets[0].cssRules.length || 
-        ![...document.styleSheets[0].cssRules].find(rule => rule.selectorText === '.sr-only')) {
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .sr-only {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border-width: 0;
-            }
-        `;
-        document.head.appendChild(style);
-    }
+    
     
     carregarCarrinhoLocalStorage();
     renderizarProdutos(); // Renderiza os cards de produto na vitrine
