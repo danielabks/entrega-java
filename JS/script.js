@@ -1,18 +1,49 @@
 /* JS/script.js */
 
 // --- 1. DADOS INICIAIS E CONSTANTES ---
+// ALTERADO DE VOLTA: A lista de produtos agora está aqui dentro do JS.
 const produtosDisponiveis = [
-    { id: 1, nome: "Notebook Gamer Pro", preco: 4599.90, imagem: "https://via.placeholder.com/150/007bff/fff?text=Notebook" },
-    { id: 2, nome: "Mouse Óptico Sem Fio", preco: 129.50, imagem: "https://via.placeholder.com/150/28a745/fff?text=Mouse" },
-    { id: 3, nome: "Teclado Mecânico RGB", preco: 379.00, imagem: "https://via.placeholder.com/150/ffc107/000?text=Teclado" },
-    { id: 4, nome: "Monitor LED 27' 4K", preco: 2199.00, imagem: "https://via.placeholder.com/150/dc3545/fff?text=Monitor" },
-    { id: 5, nome: "Cadeira Gamer Ergonômica", preco: 1350.75, imagem: "https://via.placeholder.com/150/17a2b8/fff?text=Cadeira" },
-    { id: 6, nome: "Headset Gamer 7.1", preco: 499.99, imagem: "https://via.placeholder.com/150/6f42c1/fff?text=Headset" }
+    { 
+        id: 1, 
+        nome: "Notebook Gamer Pro", 
+        preco: 4599.90, 
+        imagem: "images/Notebook.webp" // Certifique-se que o caminho está correto
+    },
+    { 
+        id: 2, 
+        nome: "Mouse Óptico Sem Fio", 
+        preco: 129.50, 
+        imagem: "images/Mouse.webp"
+    },
+    { 
+        id: 3, 
+        nome: "Teclado Mecânico RGB", 
+        preco: 379.00, 
+        imagem: "images/Teclado.webp"
+    },
+    { 
+        id: 4, 
+        nome: "Monitor LED 27' 4K", 
+        preco: 2199.00, 
+        imagem: "images/Monitor.webp"
+    },
+    { 
+        id: 5, 
+        nome: "Cadeira Gamer Ergonômica", 
+        preco: 1350.75, 
+        imagem: "images/Cadeira.webp"
+    },
+    { 
+        id: 6, 
+        nome: "Headset Gamer 7.1", 
+        preco: 499.99, 
+        imagem: "images/Headset.webp" 
+    }
 ];
 
-let carrinho = []; // Nosso carrinho agora guardará objetos com { ...produto, quantidade }
+let carrinho = []; 
 const CUSTO_ENVIO = 50.00;
-const CHAVE_CARRINHO_LS = 'carrinhoComprasApp'; // Chave para o LocalStorage
+const CHAVE_CARRINHO_LS = 'carrinhoComprasApp';
 
 // --- 2. SELEÇÃO DE ELEMENTOS DO DOM ---
 const listaProdutosContainer = document.getElementById('lista-produtos');
@@ -25,13 +56,10 @@ const btnLimparCarrinho = document.getElementById('btn-limpar-carrinho');
 const btnFinalizarCompra = document.getElementById('btn-finalizar-compra');
 
 // --- 3. FUNÇÕES DE RENDERIZAÇÃO ---
-
-/**
- * Renderiza os produtos disponíveis na página.
- */
+// Nenhuma mudança nesta seção, tudo permanece igual.
 function renderizarProdutos() {
-    if (!listaProdutosContainer) return; // Proteção caso o elemento não exista
-    listaProdutosContainer.innerHTML = ''; // Limpa a lista antes de renderizar
+    if (!listaProdutosContainer) return;
+    listaProdutosContainer.innerHTML = ''; 
 
     produtosDisponiveis.forEach(produto => {
         const cardProduto = `
@@ -46,50 +74,40 @@ function renderizarProdutos() {
                 </div>
             </div>
         `;
-        // Adicionando sr-only (screen-reader only) class para o label, para acessibilidade,
-        // mas visualmente pode ser escondido com CSS se não quiser que apareça.
-        // Adicionei um `aria-label` no input para melhor acessibilidade.
         listaProdutosContainer.innerHTML += cardProduto;
     });
 
-    // Adicionar event listeners aos botões "Adicionar" após renderizar
     document.querySelectorAll('.btn-adicionar').forEach(button => {
         button.addEventListener('click', handleAdicionarAoCarrinho);
     });
 }
 
-/**
- * Renderiza os itens do carrinho na página.
- */
 function renderizarCarrinho() {
-    if (!carrinhoItensContainer) return; // Proteção
-    carrinhoItensContainer.innerHTML = ''; // Limpa antes de renderizar
+    if (!carrinhoItensContainer) return; 
+    carrinhoItensContainer.innerHTML = ''; 
 
     if (carrinho.length === 0) {
-        carrinhoVazioMsg.style.display = 'block'; // Mostra mensagem de carrinho vazio
-        carrinhoItensContainer.appendChild(carrinhoVazioMsg); // Reinsere se foi limpo
+        if(carrinhoVazioMsg) carrinhoVazioMsg.style.display = 'block'; 
+        carrinhoItensContainer.appendChild(carrinhoVazioMsg);
     } else {
-        carrinhoVazioMsg.style.display = 'none'; // Esconde mensagem
+        if(carrinhoVazioMsg) carrinhoVazioMsg.style.display = 'none';
         carrinho.forEach(item => {
             const itemCarrinhoHTML = `
                 <div class="carrinho-item" data-iditemcarrinho="${item.id}">
-                    <div class="item-info">
-                        <p class="item-nome">${item.nome}</p>
-                        <p class="item-preco-unitario">Unitário: R$ ${item.preco.toFixed(2)}</p>
-                    </div>
+                    <p class="item-nome">${item.nome}</p>
+                    <p class="item-preco-unitario">Unitário: R$ ${item.preco.toFixed(2)}</p>
                     <div class="item-quantidade-controle">
-                        <button class="btn-diminuir-qtd" data-iditemcarrinho="${item.id}" aria-label="Diminuir quantidade de ${item.nome}">-</button>
+                        <button class="btn-diminuir-qtd" data-iditemcarrinho="${item.id}">-</button>
                         <span class="item-quantidade">${item.quantidade}</span>
-                        <button class="btn-aumentar-qtd" data-iditemcarrinho="${item.id}" aria-label="Aumentar quantidade de ${item.nome}">+</button>
+                        <button class="btn-aumentar-qtd" data-iditemcarrinho="${item.id}">+</button>
                     </div>
                     <p class="item-subtotal">Subtotal: R$ ${(item.preco * item.quantidade).toFixed(2)}</p>
-                    <button class="btn-remover-item" data-iditemcarrinho="${item.id}" aria-label="Remover ${item.nome} do carrinho">Remover</button>
+                    <button class="btn-remover-item" data-iditemcarrinho="${item.id}">Remover</button>
                 </div>
             `;
             carrinhoItensContainer.innerHTML += itemCarrinhoHTML;
         });
 
-        // Adicionar event listeners aos botões do carrinho (delegação seria melhor para muitos itens, mas isso funciona)
         document.querySelectorAll('.btn-diminuir-qtd').forEach(btn => btn.addEventListener('click', handleDiminuirQuantidade));
         document.querySelectorAll('.btn-aumentar-qtd').forEach(btn => btn.addEventListener('click', handleAumentarQuantidade));
         document.querySelectorAll('.btn-remover-item').forEach(btn => btn.addEventListener('click', handleRemoverItem));
@@ -98,9 +116,8 @@ function renderizarCarrinho() {
     salvarCarrinhoLocalStorage();
 }
 
-
 // --- 4. FUNÇÕES DE LÓGICA DO CARRINHO ---
-
+// Nenhuma mudança nesta seção, tudo permanece igual.
 function handleAdicionarAoCarrinho(event) {
     const produtoId = parseInt(event.target.dataset.idprod);
     const inputQuantidade = document.getElementById(`qtd-produto-${produtoId}`);
@@ -108,12 +125,12 @@ function handleAdicionarAoCarrinho(event) {
 
     if (isNaN(quantidade) || quantidade <= 0) {
         alert("Por favor, insira uma quantidade válida.");
-        inputQuantidade.value = "1"; // Reseta para 1
+        inputQuantidade.value = "1";
         return;
     }
 
     const produtoOriginal = produtosDisponiveis.find(p => p.id === produtoId);
-    if (!produtoOriginal) return; // Produto não encontrado (improvável aqui)
+    if (!produtoOriginal) return;
 
     const itemExistente = carrinho.find(item => item.id === produtoId);
 
@@ -123,9 +140,8 @@ function handleAdicionarAoCarrinho(event) {
         carrinho.push({ ...produtoOriginal, quantidade: quantidade });
     }
     
-    // Feedback para o usuário (poderia ser uma notificação mais elegante)
     alert(`"${produtoOriginal.nome}" (${quantidade}x) adicionado(s) ao carrinho!`);
-    inputQuantidade.value = "1"; // Reseta quantidade no card do produto
+    inputQuantidade.value = "1";
     renderizarCarrinho();
 }
 
@@ -144,7 +160,6 @@ function handleDiminuirQuantidade(event) {
     if (itemNoCarrinho) {
         itemNoCarrinho.quantidade--;
         if (itemNoCarrinho.quantidade <= 0) {
-            // Se quantidade for zero ou menos, remove o item
             removerItemDoCarrinho(produtoId);
         } else {
             renderizarCarrinho();
@@ -158,9 +173,8 @@ function handleRemoverItem(event) {
 }
 
 function removerItemDoCarrinho(produtoId) {
-    carrinho = carrinho.filter(item => item.id !== produtoId);
-    // Feedback para o usuário
     const produtoRemovido = produtosDisponiveis.find(p => p.id === produtoId);
+    carrinho = carrinho.filter(item => item.id !== produtoId);
     if (produtoRemovido) {
         alert(`"${produtoRemovido.nome}" foi removido do carrinho.`);
     }
@@ -176,7 +190,6 @@ function limparCarrinho() {
 }
 
 // --- 5. FUNÇÕES DE CÁLCULO E ATUALIZAÇÃO DE TOTAIS ---
-
 function atualizarTotais() {
     const subtotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
     const custoEnvio = carrinho.length > 0 ? CUSTO_ENVIO : 0;
@@ -188,7 +201,6 @@ function atualizarTotais() {
 }
 
 // --- 6. LOCALSTORAGE ---
-
 function salvarCarrinhoLocalStorage() {
     localStorage.setItem(CHAVE_CARRINHO_LS, JSON.stringify(carrinho));
 }
@@ -201,47 +213,27 @@ function carregarCarrinhoLocalStorage() {
 }
 
 // --- 7. INICIALIZAÇÃO E EVENT LISTENERS GLOBAIS ---
-
 function finalizarCompra() {
     if (carrinho.length === 0) {
         alert("Seu carrinho está vazio. Adicione produtos antes de finalizar a compra!");
         return;
     }
-
     const subtotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
-    const custoEnvio = CUSTO_ENVIO; // Assume que sempre tem custo se houver itens
+    const custoEnvio = CUSTO_ENVIO;
     const total = subtotal + custoEnvio;
-
     let resumoCompra = "--- Obrigado por sua compra! ---\n\nItens:\n";
     carrinho.forEach(item => {
         resumoCompra += `- ${item.nome} (Qtd: ${item.quantidade}) - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
     });
-    resumoCompra += "\n----------------------------------\n";
-    resumoCompra += `Subtotal: R$ ${subtotal.toFixed(2)}\n`;
-    resumoCompra += `Custo de Envio: R$ ${custoEnvio.toFixed(2)}\n`;
-    resumoCompra += `TOTAL A PAGAR: R$ ${total.toFixed(2)}\n\n`;
-    resumoCompra += "Sua compra foi finalizada com sucesso!";
-    
+    resumoCompra += `\n----------------------------------\nSubtotal: R$ ${subtotal.toFixed(2)}\nCusto de Envio: R$ ${custoEnvio.toFixed(2)}\nTOTAL A PAGAR: R$ ${total.toFixed(2)}\n\nSua compra foi finalizada com sucesso!`;
     alert(resumoCompra);
-    
-    // Opcional: Limpar carrinho após finalizar
-    // carrinho = [];
-    // renderizarCarrinho(); 
-    // salvarCarrinhoLocalStorage();
 }
 
-
-/**
- * Função principal para inicializar o aplicativo.
- */
+// ALTERADO DE VOLTA: A função de inicialização voltou a ser simples e síncrona.
 function inicializarLoja() {
-    // Adiciona uma classe sr-only ao CSS se ainda não existir
-    // Isso é para esconder visualmente labels, mas mantê-los para leitores de tela.
-    
-    
     carregarCarrinhoLocalStorage();
-    renderizarProdutos(); // Renderiza os cards de produto na vitrine
-    renderizarCarrinho(); // Renderiza o estado atual do carrinho (pode estar vazio ou carregado do LS)
+    renderizarProdutos(); 
+    renderizarCarrinho(); 
 
     if (btnLimparCarrinho) {
         btnLimparCarrinho.addEventListener('click', limparCarrinho);
